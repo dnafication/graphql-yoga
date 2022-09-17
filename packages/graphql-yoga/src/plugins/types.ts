@@ -5,6 +5,7 @@ import {
   OnSubscribeHook,
 } from '@envelop/core'
 import { ExecutionResult } from 'graphql'
+import { YogaServer } from '../server.js'
 import {
   ExecutionPatchResult,
   FetchAPI,
@@ -34,6 +35,11 @@ export type Plugin<
    * Use this hook with your own risk. It is still experimental and may change in the future.
    * @internal
    */
+  onYogaInit?: OnYogaInitHook<TServerContext>
+  /**
+   * Use this hook with your own risk. It is still experimental and may change in the future.
+   * @internal
+   */
   onRequest?: OnRequestHook<TServerContext>
   /**
    * Use this hook with your own risk. It is still experimental and may change in the future.
@@ -56,6 +62,15 @@ export type Plugin<
    */
   onResponse?: OnResponseHook<TServerContext>
 }
+
+export type OnYogaInitHook<TServerContext> = (
+  payload: OnYogaInitEventPayload<TServerContext>,
+) => void
+
+export type OnYogaInitEventPayload<TServerContext> =
+  {
+    yoga: YogaServer<TServerContext, any>
+  }
 
 export type OnRequestHook<TServerContext> = (
   payload: OnRequestEventPayload<TServerContext>,
