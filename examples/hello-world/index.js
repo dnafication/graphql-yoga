@@ -1,5 +1,6 @@
 const { createServer } = require('node:http')
 const { createYoga, createSchema } = require('graphql-yoga')
+const { useSofa, useSofaWithSwaggerUI } = require('@graphql-yoga/plugin-sofa')
 
 const yoga = createYoga({
   schema: createSchema({
@@ -22,7 +23,15 @@ const yoga = createYoga({
       }
     `,
   },
+  plugins: [
+    useSofaWithSwaggerUI({
+      basePath: '/api',
+      swaggerUIPath: '/swagger',
+    })
+  ]
 })
 
 const server = createServer(yoga)
-server.listen(4000)
+server.listen(4000, () => {
+  console.log('Server is running on http://localhost:4000/graphql')
+})

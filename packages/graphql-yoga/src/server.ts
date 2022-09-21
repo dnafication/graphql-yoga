@@ -78,10 +78,7 @@ import { useLimitBatching } from './plugins/requestValidation/useLimitBatching.j
 /**
  * Configuration options for the server
  */
-export type YogaServerOptions<
-  TServerContext extends Record<string, any>,
-  TUserContext extends Record<string, any>,
-> = {
+export type YogaServerOptions<TServerContext, TUserContext> = {
   /**
    * Enable/disable logging or provide a custom logger.
    * @default true
@@ -194,10 +191,7 @@ export type BatchingOptions =
  * Base class that can be extended to create a GraphQL server with any HTTP server framework.
  * @internal
  */
-export class YogaServer<
-  TServerContext,
-  TUserContext,
-> {
+export class YogaServer<TServerContext, TUserContext> {
   /**
    * Instance of envelop
    */
@@ -269,7 +263,11 @@ export class YogaServer<
     this.graphqlEndpoint = options?.graphqlEndpoint || '/graphql'
     const graphqlEndpoint = this.graphqlEndpoint
 
-    this.plugins = [
+    const plugins: Plugin<
+      TUserContext & TServerContext & YogaInitialContext,
+      TServerContext,
+      {}
+    >[] = [
       // Use the schema provided by the user
       !!options?.schema && useSchema(options.schema),
 
@@ -286,36 +284,6 @@ export class YogaServer<
             typeof options?.validationCache === 'object'
               ? options.validationCache
               : undefined,
-        }),
-      // Log events - useful for debugging purposes
-      logger !== false &&
-        useLogger({
-          skipIntrospection: true,
-          logFn: (eventName, events) => {
-            switch (eventName) {
-              case 'execute-start':
-              case 'subscribe-start':
-                this.logger.debug(titleBold('Execution start'))
-                const {
-                  params: { query, operationName, variables, extensions },
-                }: YogaInitialContext = events.args.contextValue
-                this.logger.debug(titleBold('Received GraphQL operation:'))
-                this.logger.debug({
-                  query,
-                  operationName,
-                  variables,
-                  extensions,
-                })
-                break
-              case 'execute-end':
-              case 'subscribe-end':
-                this.logger.debug(titleBold('Execution end'))
-                this.logger.debug({
-                  result: events.result,
-                })
-                break
-            }
-          },
         }),
       options?.context != null &&
         useExtendContext(async (initialContext) => {
@@ -379,17 +347,19 @@ export class YogaServer<
         processResult: processRegularResult,
       }),
       ...(options?.plugins ?? []),
-      useLimitBatching(batchingLimit),
-      useCheckGraphQLQueryParams(),
-      useUnhandledRoute({
-        graphqlEndpoint,
-        showLandingPage: options?.landingPage ?? true,
-      }),
-      // We make sure that the user doesn't send a mutation with GET
-      usePreventMutationViaGET(),
       // To make sure those are called at the end
       {
         onPluginInit({ addPlugin }) {
+          addPlugin(useLimitBatching(batchingLimit))
+          addPlugin(useCheckGraphQLQueryParams())
+          addPlugin(
+            useUnhandledRoute({
+              graphqlEndpoint,
+              showLandingPage: options?.landingPage ?? true,
+            }),
+          )
+          // We make sure that the user doesn't send a mutation with GET
+          addPlugin(usePreventMutationViaGET())
           if (maskedErrors) {
             addPlugin(useMaskedErrors(maskedErrors))
           }
@@ -402,8 +372,14 @@ export class YogaServer<
     ]
 
     this.getEnveloped = envelop({
-      plugins: this.plugins,
+      plugins,
     }) as GetEnvelopedFn<TUserContext & TServerContext & YogaInitialContext>
+
+    this.plugins = this.getEnveloped._plugins as Plugin<
+      TUserContext & TServerContext & YogaInitialContext,
+      TServerContext,
+      {}
+    >[]
 
     this.onRequestHooks = []
     this.onRequestParseHooks = []

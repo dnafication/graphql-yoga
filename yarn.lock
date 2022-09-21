@@ -10220,6 +10220,11 @@ etag@^1.8.1, etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
+event-target-polyfill@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/event-target-polyfill/-/event-target-polyfill-0.0.3.tgz#ed373295f3b257774b5d75afb2599331d9f3406c"
+  integrity sha512-ZMc6UuvmbinrCk4RzGyVmRyIsAyxMRlp4CqSrcQRO8Dy0A9ldbiRy5kdtBj4OtP7EClGdqGfIqo9JmOClMsGLQ==
+
 event-target-shim@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/event-target-shim/-/event-target-shim-5.0.1.tgz#5d4d3ebdf9583d63a5333ce2deb7480ab2b05789"
@@ -15943,6 +15948,11 @@ open@^8.0.4:
     is-docker "^2.1.1"
     is-wsl "^2.2.0"
 
+openapi-types@12.0.2:
+  version "12.0.2"
+  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-12.0.2.tgz#b752ab0a463c594fd7e3142e0e5983a9645503f6"
+  integrity sha512-GuTo7FyZjOIWVhIhQSWJVaws6A82sWIGyQogxxYBYKZ0NBdyP2CYSIgOwFfSB+UVoPExk/YzFpyYitHS8KVZtA==
+
 opener@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.5.2.tgz#5d37e1f35077b9dcac4301372271afdeb2a13598"
@@ -18482,20 +18492,20 @@ socks@^2.6.2:
     ip "^1.1.5"
     smart-buffer "^4.2.0"
 
-sofa-api@0.12.0-alpha.0:
-  version "0.12.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/sofa-api/-/sofa-api-0.12.0-alpha.0.tgz#f3cace18d27f6df96709b4e127981b3b28e0bf0f"
-  integrity sha512-caR3WGCDbIAR7Rc9zQhSVnXFV6rU9AWsCdaENHza3TastpuEun+2czZNIJcyNl29mfA+gj+e1PExI8xwiXmLPQ==
+sofa-api@0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/sofa-api/-/sofa-api-0.12.0.tgz#0ce72160e40bc6422b4a637885d11a85a94e3531"
+  integrity sha512-ZhO48FILzvV4UO2QMcllPmGoAnY1fPntxan9iRDILqviXE3diIHVcO7A914tox9ITZjzr9/DSFEbAp8KEQhz8Q==
   dependencies:
     "@graphql-tools/utils" "8.12.0"
     "@whatwg-node/fetch" "^0.4.3"
     "@whatwg-node/server" "^0.4.1"
     ansi-colors "4.1.3"
     itty-router "^2.6.1"
+    openapi-types "12.0.2"
     param-case "3.0.4"
     title-case "3.0.3"
     tslib "2.4.0"
-    uuid "8.3.2"
 
 sonic-boom@^3.0.0:
   version "3.0.0"
@@ -20291,7 +20301,7 @@ uuid@3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
-uuid@8.3.2, uuid@^8.0.0, uuid@^8.3.2:
+uuid@^8.0.0, uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
