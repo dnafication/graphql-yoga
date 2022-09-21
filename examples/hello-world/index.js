@@ -1,6 +1,5 @@
 const { createServer } = require('node:http')
 const { createYoga, createSchema } = require('graphql-yoga')
-const { useSofa, useSofaWithSwaggerUI } = require('@graphql-yoga/plugin-sofa')
 
 const yoga = createYoga({
   schema: createSchema({
@@ -22,13 +21,7 @@ const yoga = createYoga({
         hello
       }
     `,
-  },
-  plugins: [
-    useSofaWithSwaggerUI({
-      basePath: '/api',
-      swaggerUIPath: '/swagger',
-    })
-  ]
+  }
 })
 
 const server = createServer(yoga)
